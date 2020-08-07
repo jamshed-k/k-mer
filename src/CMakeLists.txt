@@ -1,6 +1,6 @@
 
 set(PROJECT_SRC
-        main.cpp)
+        smhasher/MurmurHash3.cpp)
 
 
 add_library(core STATIC ${PROJECT_SRC})
