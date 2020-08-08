@@ -41,10 +41,10 @@ make install
 
 More specifically, the classes that support the entire stuff:
 
-- The `Kmer<k>` class is the arbitrary length _k_-mer class (with a non-templated base class `Kmer_Utility`).
+- The [`Kmer<k>`](https://github.com/jamshed-k/k-mer/blob/master/include/Kmer.hpp) class is the arbitrary length _k_-mer class (with a non-templated base class `Kmer_Utility`).
 
-- The `Algorithm<k>` class should either just invoke your algorithm or contain its implementation. Your algorithm and anywhere you used _k_-mers need to be templatized on `k`. An example algorithm implementation is provided at the class that given a reference file name, prints out the lexicographically largest canonical _k_-mer present at the reference. You can safely strip all the private members of the `Algorthm` class off, and only need to define the public constructor and the top-level driver method `execute()` for your algorithm, and add whatever else necessary to the class.
+- The [`Algorithm<k>`](https://github.com/jamshed-k/k-mer/blob/master/include/Algorithm.hpp) class should either just invoke your algorithm or contain its implementation. Your algorithm and anywhere you used _k_-mers need to be templatized on `k`. An example algorithm implementation is provided at the class that given a reference file name, prints out the lexicographically largest canonical _k_-mer present at the reference. You can safely strip all the private members of the `Algorithm` class off, and only need to define the public constructor and the top-level driver method `execute()` for your algorithm, and add whatever else necessary to the class.
 
-- The `Application` class generates the concrete code (specifically, a hierarchy of classes ordered on `k`) for all possible _k_-values (in the context of your algorithm), and dynamically selects which of these statically compiled classes need to be used throughout the algorithm.
+- The [`Application`](https://github.com/jamshed-k/k-mer/blob/master/include/Application.hpp) class generates the concrete code (specifically, a hierarchy of classes ordered on `k`) for all possible _k_-values (in the context of your algorithm), and dynamically selects which of these statically compiled classes need to be used throughout the algorithm.
 
 For very large _k_-values, typical compilation approaches can fail, and you should try using `-ftemplate-depth=` to increase the maximum template instantiation depth. Please note that, the higher the `MAX_K` values are set, the more expensive the compilations become.
