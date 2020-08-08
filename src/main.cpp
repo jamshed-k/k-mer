@@ -15,12 +15,14 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    
+    constexpr uint16_t MAX_K = 512;
 
     const std::string ref_file_name(argv[1]);
     const uint16_t k(atoi(argv[2]));
 
     const Program_Params params(ref_file_name, k);
-    Application<512> app(params);
+    Application<MAX_K> app(params);
 
     app.execute();
 
