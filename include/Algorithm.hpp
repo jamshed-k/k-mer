@@ -5,15 +5,11 @@
 
 
 #include "Kmer.hpp"
+#include "Program_Params.hpp"
 #include "kseq/kseq.h"
 
 #include <string>
 #include "zlib.h"
-
-
-// Declare the type of file handler and the read() function.
-// Required for FASTA/FASTQ file reading using the kseq library.
-KSEQ_INIT(int, read);
 
 
 // This is the class for your top-level algorithm, and it is
@@ -24,6 +20,10 @@ KSEQ_INIT(int, read);
 template <uint16_t k>
 class Algorithm
 {
+    // Declare the type of file handler and the read() function.
+    // Required for FASTA/FASTQ file reading using the kseq library.
+    KSEQ_INIT(int, read);
+
 private:
 
     constexpr static char PLACEHOLDER_NUCLEOTIDE = 'N';
@@ -31,6 +31,11 @@ private:
     // Name of the file containing the reference to be processed.
     std::string ref_file_name;
 
+
+    // Constructs an algorithm object to operate on the reference from the file
+    // named `ref_file_name`.
+    Algorithm(const std::string& ref_file_name): ref_file_name(ref_file_name)
+    {}
 
     // Processes the sequence `seq` of length `seq_len`.
     Kmer<k> process_sequence(const char* const seq, const size_t seq_len) const;
@@ -44,12 +49,20 @@ private:
 
 public:
 
-    Algorithm(const std::string& ref_file_name): ref_file_name(ref_file_name)
-    {}
+    // Constructs an algorithm object to operate on the parameters choice provided
+    // at `params`.
+    Algorithm(const Program_Params& params);
+
 
     // Processes the reference at the file named `ref_file_name`.
-    void process() const;
+    void execute() const;
 };
+
+
+template <uint16_t k>
+inline Algorithm<k>::Algorithm(const Program_Params& params):
+    Algorithm(params.ref_file_name())
+{}
 
 
 template <uint16_t k>
@@ -91,7 +104,7 @@ inline Kmer<k> Algorithm<k>::process_sequence(const char* const seq, const size_
 
 
 template <uint16_t k>
-size_t Algorithm<k>::search_valid_kmer(const char* const seq, const size_t left_end, const size_t right_end) const
+inline size_t Algorithm<k>::search_valid_kmer(const char* const seq, const size_t left_end, const size_t right_end) const
 {
     size_t valid_start_idx;
     uint16_t nucl_count;
@@ -121,7 +134,7 @@ size_t Algorithm<k>::search_valid_kmer(const char* const seq, const size_t left_
 
 
 template <uint16_t k>
-inline void Algorithm<k>::process() const
+inline void Algorithm<k>::execute() const
 {
     // Open the file handler for the FASTA / FASTQ file containing the reference.
     FILE* input = fopen(ref_file_name.c_str(), "r");
