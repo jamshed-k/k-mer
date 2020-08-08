@@ -14,10 +14,10 @@ class Application
 private:
 
     // Pointer to an application instance of the next `Application` class in the top-down hierarchy (on `k`).
-    Application<k - 1>* app_next_level;
+    Application<k - 1>* const app_next_level;
 
     // Pointer to an algorithm instance operating on `k` value of this class.
-    Algorithm<k>* algorithm;
+    Algorithm<k>* const algorithm;
 
 
 public:

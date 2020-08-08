@@ -55,7 +55,7 @@ public:
 
 
     // Processes the reference at the file named `ref_file_name`.
-    void execute() const;
+    void execute();
 };
 
 
@@ -134,7 +134,7 @@ inline size_t Algorithm<k>::search_valid_kmer(const char* const seq, const size_
 
 
 template <uint16_t k>
-inline void Algorithm<k>::execute() const
+inline void Algorithm<k>::execute()
 {
     // Open the file handler for the FASTA / FASTQ file containing the reference.
     FILE* input = fopen(ref_file_name.c_str(), "r");
