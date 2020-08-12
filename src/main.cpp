@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     const uint16_t k(atoi(argv[2]));
 
     const Program_Params params(ref_file_name, k);
-    Application<MAX_K> app(params);
+    const Application<MAX_K> app(params);
 
     app.execute();
 
