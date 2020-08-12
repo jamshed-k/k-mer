@@ -38,7 +38,7 @@ class Application<1>
 private:
 
     // Pointer to an algorithm instance operating with `k = 1`.
-    Algorithm<1>* algorithm;
+    Algorithm<1>* const algorithm;
 
 
 public:
